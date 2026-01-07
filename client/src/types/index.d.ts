@@ -23,10 +23,12 @@ interface ILoginFormValues {
 interface ILoginResponse {
     success: boolean;
     message: string;
-    token?: string;
     user?: {
         id: string;
         email: string;
         name: string;
-    };
+    },
+    data: {
+        token?: string;
+    }
 }

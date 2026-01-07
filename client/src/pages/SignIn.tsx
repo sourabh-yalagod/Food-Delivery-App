@@ -29,8 +29,8 @@ const SignIn: React.FC = () => {
                 const response = await loginUser(values).unwrap() as ILoginResponse;
                 if (response.success) {
                     // Store token if needed
-                    if (response.token) {
-                        localStorage.setItem('authToken', response.token);
+                    if (response?.data?.token) {
+                        localStorage.setItem('accessToken', response.data.token);
                     }
                     navigate('/');
                 }
