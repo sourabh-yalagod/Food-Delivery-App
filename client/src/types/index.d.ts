@@ -61,3 +61,20 @@ interface IMenusResponse {
     data: IFoodItem[];
     message?: string;
 }
+interface IRestaurant {
+    id: string;
+    name: string;
+    location: string;
+    rating: number;
+    image: string;
+    cost: string;
+    distance: number | null;
+    duration: number | null;
+    description: string | null;
+}
+
+interface IRestaurantsResponse {
+    success: boolean;
+    data: IRestaurant[];
+    message?: string;
+}

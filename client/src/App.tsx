@@ -4,6 +4,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Navbar from "./components/NavBar";
 import AppData from "./lib/AppData";
+import Restaurant from "./pages/Restaurant";
 
 const Layout = () => {
   const { routesToHideNavBar } = AppData();
@@ -16,6 +17,7 @@ const Layout = () => {
         <Route path="/" element={<Home />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/restaurants" element={<Restaurant />} />
       </Routes>
     </>
   );
