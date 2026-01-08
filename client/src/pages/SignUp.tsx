@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRegisterUserMutation } from '../redux/endPoints/user';
 
 
@@ -171,13 +171,13 @@ const SignUp: React.FC = () => {
                         />
                         <label htmlFor="terms" className="text-sm text-gray-600">
                             I agree to the{' '}
-                            <a href="/terms" className="text-orange-600 hover:text-orange-700 font-medium">
+                            <Link to="/terms" className="text-orange-600 hover:text-orange-700 font-medium">
                                 Terms & Conditions
-                            </a>{' '}
+                            </Link>{' '}
                             and{' '}
-                            <a href="/privacy" className="text-orange-600 hover:text-orange-700 font-medium">
+                            <Link to="/privacy" className="text-orange-600 hover:text-orange-700 font-medium">
                                 Privacy Policy
-                            </a>
+                            </Link>
                         </label>
                     </div>
 
@@ -201,9 +201,9 @@ const SignUp: React.FC = () => {
                 {/* Sign In Link */}
                 <p className="text-center text-gray-600 text-sm">
                     Already have an account?{' '}
-                    <a href="/signin" className="text-orange-600 hover:text-orange-700 font-semibold">
+                    <Link to="/signin" className="text-orange-600 hover:text-orange-700 font-semibold">
                         Sign In
-                    </a>
+                    </Link>
                 </p>
             </div>
         </div>

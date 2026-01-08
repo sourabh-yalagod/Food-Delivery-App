@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '../redux/endPoints/user';
 
 
@@ -108,9 +108,9 @@ const SignIn: React.FC = () => {
 
                     {/* Forgot Password Link */}
                     <div className="flex justify-end">
-                        <a href="/forgot-password" className="text-sm text-orange-600 hover:text-orange-700 font-medium">
+                        <Link to="/forgot-password" className="text-sm text-orange-600 hover:text-orange-700 font-medium">
                             Forgot Password?
-                        </a>
+                        </Link>
                     </div>
 
                     {/* Submit Button */}
@@ -133,9 +133,9 @@ const SignIn: React.FC = () => {
                 {/* Sign Up Link */}
                 <p className="text-center text-gray-600 text-sm">
                     Don't have an account?{' '}
-                    <a href="/signup" className="text-orange-600 hover:text-orange-700 font-semibold">
+                    <Link to="/signup" className="text-orange-600 hover:text-orange-700 font-semibold">
                         Sign Up
-                    </a>
+                    </Link>
                 </p>
             </div>
         </div>

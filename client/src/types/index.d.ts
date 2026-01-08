@@ -32,3 +32,32 @@ interface ILoginResponse {
         token?: string;
     }
 }
+
+interface INavLink {
+    label: string;
+    href: string;
+    icon: React.ReactNode;
+}
+
+interface IUserMenuOption {
+    label: string;
+    href: string;
+    icon: React.ReactNode;
+}
+interface IFoodItem {
+    id: string;
+    name: string;
+    price: number;
+    description: string;
+    image: string;
+    rating: number;
+    votes: number;
+    cartItemId: string | null;
+    veg: boolean;
+}
+
+interface IMenusResponse {
+    success: boolean;
+    data: IFoodItem[];
+    message?: string;
+}
