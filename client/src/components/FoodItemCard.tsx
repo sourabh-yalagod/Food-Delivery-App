@@ -16,7 +16,7 @@ interface IFoodItemCard {
 
 interface IFoodItemCardProps {
     item: IFoodItemCard;
-    onAddToCart: (itemId: string) => void;
+    onAddToCart: (itemId: string, price: number, quantity: number) => void;
     onRemoveFromCart?: (cartItemId: string) => void;
 }
 
@@ -27,9 +27,9 @@ const FoodItemCard: React.FC<IFoodItemCardProps> = ({
 }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [isAdded, setIsAdded] = useState<boolean>(item.cartItemId !== null);
-
+    const [quantity, setQuantity] = useState(1);
     const handleAddToCart = (): void => {
-        onAddToCart(item.id);
+        onAddToCart(item.id, item.price, quantity);
         setIsAdded(true);
     };
 

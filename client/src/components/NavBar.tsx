@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, LogOut, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -17,12 +17,14 @@ import {
 } from './ui/dropdown-menu';
 import { Button } from './ui/button';
 import AppData from '../lib/AppData';
+import useAuth from '../hooks/useAuth';
 
 const Navbar: React.FC = () => {
+    const { isAuthenticated: isAuth } = useAuth();
     const navigate = useNavigate();
     const { navLinks, userMenuOptions } = AppData();
     const [isOpen, setIsOpen] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(isAuth);
     const [userName, setUserName] = useState("");
 
     const handleNavigation = (href: string): void => {
@@ -32,9 +34,12 @@ const Navbar: React.FC = () => {
 
     const handleLogout = (): void => {
         setIsAuthenticated(false);
-        localStorage.removeItem('authToken');
+        localStorage.removeItem('accessToken');
         navigate('/signin');
     };
+    useEffect(() => {
+        setIsAuthenticated(isAuth);
+    }, [isAuth])
 
     const renderNavLinks = (): React.ReactNode => {
         return navLinks.map((link) => (

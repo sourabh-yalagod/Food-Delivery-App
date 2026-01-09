@@ -1,6 +1,8 @@
 import { HelpCircle, Home, MapPin, Settings, ShoppingCart, User } from 'lucide-react';
+import useAuth from '../hooks/useAuth';
 
 const AppData = () => {
+  const { cartId } = useAuth()
   const navLinks: INavLink[] = [
     {
       label: 'Home',
@@ -14,7 +16,7 @@ const AppData = () => {
     },
     {
       label: 'Cart',
-      href: '/cart',
+      href: `/cart/${cartId}`,
       icon: <ShoppingCart className="w-5 h-5" />,
     },
   ];

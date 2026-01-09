@@ -5,7 +5,7 @@ import { AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import RestaurantCard from '../components/RestaurantCard';
 
-const Restaurant: React.FC = () => {
+const Restaurants: React.FC = () => {
     const navigate = useNavigate();
     const { data, isLoading, error } = useGetRestaurantsQuery();
     const [searchQuery, setSearchQuery] = useState('');
@@ -14,7 +14,7 @@ const Restaurant: React.FC = () => {
 
 
     // Filter restaurants based on search and rating
-    const filteredRestaurants = restaurants.filter((restaurant) => {
+    const filteredRestaurants = restaurants?.filter((restaurant) => {
         const matchesSearch = restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             restaurant.location.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesRating = ratingFilter ? restaurant.rating >= ratingFilter : true;
@@ -176,4 +176,4 @@ const Restaurant: React.FC = () => {
     );
 };
 
-export default Restaurant;
+export default Restaurants;

@@ -29,7 +29,7 @@ interface ILoginResponse {
         name: string;
     },
     data: {
-        token?: string;
+        accessToken?: string;
     }
 }
 
@@ -77,4 +77,17 @@ interface IRestaurantsResponse {
     success: boolean;
     data: IRestaurant[];
     message?: string;
+}
+
+interface CartItem {
+    id: string;
+    cartItemId: string;
+    name: string;
+    price: string;
+    image: string;
+    description: string;
+    rating: number;
+    votes: number;
+    veg: boolean;
+    quantity?: number;
 }

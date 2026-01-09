@@ -1,34 +1,39 @@
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import Navbar from "./components/NavBar";
-import AppData from "./lib/AppData";
-import Restaurant from "./pages/Restaurant";
-
-const Layout = () => {
-  const { routesToHideNavBar } = AppData();
-  const location = useLocation();
-
-  return (
-    <>
-      {!routesToHideNavBar.includes(location.pathname) && <Navbar />}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/restaurants" element={<Restaurant />} />
-      </Routes>
-    </>
-  );
-};
+import Restaurants from "./pages/Restaurants";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Layout />
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/restaurants" element={<Restaurants />} />
+          <Route path="/cart/:cartId" element={<Cart />} />
+        </Route>
+
+        {/* Routes WITHOUT Navbar */}
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+      </Routes>
     </BrowserRouter>
   );
 };
 
 export default App;
+
+import { Outlet } from "react-router-dom";
+import Navbar from "./components/NavBar";
+import Cart from "./pages/Cart";
+
+const Layout = () => {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  );
+};
+
