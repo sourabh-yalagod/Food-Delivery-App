@@ -1,8 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Trash2, ShoppingCart, AlertCircle } from 'lucide-react';
+import { ShoppingCart, AlertCircle } from 'lucide-react';
 import { useGetCartsQuery, useRemoveFromCartMutation } from '../redux/endPoints/cart';
-import { Skeleton } from '../components/ui/skeleton';
 import { useParams } from 'react-router-dom';
+import CartSummary from '../components/cart/CartSummary';
+import CartItemCard from '../components/cart/CartItemCard';
+import CartLoadingSkeleton from '../components/cart/CartLoadingSkeleton';
+import CartErrorState from '../components/cart/CartErrorState';
+import CartEmptyState from '../components/cart/CartEmptyState';
 
 
 const Cart: React.FC = () => {
@@ -19,7 +23,7 @@ const Cart: React.FC = () => {
         async (cartItemId: string): Promise<void> => {
             setRemovingId(cartItemId);
             setRemoveError(null);
-
+            console.log("cartItemId : ", cartItemId)
             try {
                 await removeFromCartApi(cartItemId as any).unwrap();
                 refetch();
@@ -117,190 +121,6 @@ const Cart: React.FC = () => {
         </div>
     );
 };
-
-// Subcomponents
-interface CartItemCardProps {
-    item: CartItem;
-    isRemoving: boolean;
-    itemTotal: number;
-    onRemove: (cartItemId: string) => void;
-}
-
-const CartItemCard: React.FC<CartItemCardProps> = ({ item, isRemoving, itemTotal, onRemove }) => (
-    <div className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition">
-        <div className="flex gap-6">
-            {/* Image */}
-            <div className="flex-shrink-0 w-32 h-32">
-                <img
-                    src={`/images/${item.image}`}
-                    alt={item.name}
-                    className="w-full h-full object-cover rounded-lg"
-                    onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/placeholder.jpg';
-                    }}
-                />
-            </div>
-
-            {/* Details */}
-            <div className="flex-1">
-                <div className="flex justify-between items-start mb-2">
-                    <div>
-                        <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
-                        <p className="text-sm text-gray-500 mt-1">{item.description}</p>
-                    </div>
-                    <span className={`px-2 py-1 rounded text-xs font-semibold ${item.veg
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800'
-                        }`}>
-                        {item.veg ? 'Veg' : 'Non-Veg'}
-                    </span>
-                </div>
-
-                <div className="flex items-center justify-between mt-4">
-                    <div className="flex items-center gap-2">
-                        <span className="text-gray-600">Rating:</span>
-                        <span className="font-semibold text-gray-800">{item.rating}</span>
-                        <span className="text-gray-500 text-sm">({item.votes.toLocaleString()} votes)</span>
-                    </div>
-                </div>
-
-                <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
-                    <div>
-                        <p className="text-sm text-gray-600 mb-1">Price per item</p>
-                        <p className="text-2xl font-bold text-gray-800">₹{item.price}</p>
-                        {item.quantity && item.quantity > 1 && (
-                            <p className="text-sm text-gray-500 mt-1">
-                                Qty: {item.quantity} × ₹{item.price} = ₹{itemTotal.toFixed(2)}
-                            </p>
-                        )}
-                    </div>
-
-                    <button
-                        onClick={() => onRemove(item.cartItemId)}
-                        disabled={isRemoving}
-                        className="bg-red-50 hover:bg-red-100 disabled:bg-gray-100 text-red-600 disabled:text-gray-400 p-3 rounded-lg transition"
-                        title="Remove from cart"
-                    >
-                        {isRemoving ? (
-                            <div className="w-5 h-5 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
-                        ) : (
-                            <Trash2 className="w-5 h-5" />
-                        )}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-);
-
-interface CartSummaryProps {
-    items: CartItem[];
-    total: number;
-}
-
-const CartSummary: React.FC<CartSummaryProps> = ({ items, total }) => (
-    <div className="bg-white rounded-lg shadow-sm p-6 sticky top-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-6">Order Summary</h2>
-
-        <div className="space-y-4 mb-6 pb-6 border-b border-gray-200">
-            <div className="flex justify-between text-gray-600">
-                <span>Items ({items.length})</span>
-                <span>₹{total.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between text-gray-600">
-                <span>Delivery Fee</span>
-                <span className="text-green-600 font-semibold">FREE</span>
-            </div>
-        </div>
-
-        <div className="flex justify-between items-center mb-6">
-            <span className="text-lg font-semibold text-gray-800">Total</span>
-            <span className="text-2xl font-bold text-orange-600">₹{total.toFixed(2)}</span>
-        </div>
-
-        <button className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-4 rounded-lg transition">
-            Proceed to Checkout
-        </button>
-    </div>
-);
-
-const CartLoadingSkeleton: React.FC = () => (
-    <div className="min-h-screen bg-gray-50">
-        <div className="bg-white shadow-sm">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <Skeleton className="h-10 w-48 mb-2" />
-                <Skeleton className="h-6 w-32" />
-            </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 space-y-4">
-                    {Array.from({ length: 3 }).map((_, i) => (
-                        <div key={i} className="bg-white rounded-lg shadow-sm p-6">
-                            <div className="flex gap-6">
-                                <Skeleton className="w-32 h-32 rounded-lg flex-shrink-0" />
-                                <div className="flex-1 space-y-3">
-                                    <Skeleton className="h-6 w-40" />
-                                    <Skeleton className="h-4 w-full" />
-                                    <Skeleton className="h-4 w-32" />
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <div className="lg:col-span-1">
-                    <div className="bg-white rounded-lg shadow-sm p-6 space-y-4">
-                        <Skeleton className="h-6 w-32" />
-                        <Skeleton className="h-10 w-full" />
-                        <Skeleton className="h-10 w-full" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-);
-
-interface CartErrorStateProps {
-    message: string;
-    onRetry: () => void;
-}
-
-const CartErrorState: React.FC<CartErrorStateProps> = ({ message, onRetry }) => (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="bg-white rounded-lg shadow-md p-8 max-w-md w-full">
-            <div className="flex items-center gap-3 mb-4">
-                <AlertCircle className="w-8 h-8 text-red-600" />
-                <h2 className="text-xl font-bold text-gray-800">Error Loading Cart</h2>
-            </div>
-            <p className="text-gray-600 mb-6">{message}</p>
-            <button
-                onClick={onRetry}
-                className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded-lg transition"
-            >
-                Retry
-            </button>
-        </div>
-    </div>
-);
-
-const CartEmptyState: React.FC = () => (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="bg-white rounded-lg shadow-md p-8 max-w-md w-full text-center">
-            <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Your Cart is Empty</h2>
-            <p className="text-gray-600 mb-6">
-                Start adding items to your cart to see them here!
-            </p>
-            <a
-                href="/"
-                className="inline-block bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-6 rounded-lg transition"
-            >
-                Continue Shopping
-            </a>
-        </div>
-    </div>
-);
 
 function getErrorMessage(error: any): string {
     if (typeof error === 'object' && 'data' in error) {

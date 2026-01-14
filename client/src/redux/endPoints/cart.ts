@@ -2,29 +2,41 @@ import { apiSlice } from "../api/apiSlice";
 
 const cartEndpoints = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        getCarts: builder.query<any, void>({
+        getCarts: builder.query<any, string>({
             query: (userId) => ({
-                url: "/carts/" + userId,
+                url: `/carts/${userId}`,
                 method: "GET",
             }),
-            providesTags: ["carts" as any],
+            providesTags: (result, error, userId) => [
+                { type: "Carts", id: userId },
+            ],
         }),
-        addToCart: builder.mutation<any, void>({
-            query: (payload) => ({
+
+        addToCart: builder.mutation<any, { userId: string; payload: any }>({
+            query: ({ payload }) => ({
                 url: "/carts",
                 method: "POST",
                 body: payload,
             }),
-            invalidatesTags: ['carts' as any]
+            invalidatesTags: (result, error, { userId }) => [
+                { type: "Carts", id: userId },
+            ],
         }),
-        removeFromCart: builder.mutation<any, void>({
+
+        removeFromCart: builder.mutation<any, { userId: string; menuId: string }>({
             query: (menuId) => ({
-                url: "/carts/" + menuId,
+                url: `/carts/${menuId}`,
                 method: "DELETE",
-                invalidatesTags: ['carts' as any]
             }),
+            invalidatesTags: (result, error, { userId }) => [
+                { type: "Carts", id: userId },
+            ],
         }),
     }),
 });
 
-export const { useGetCartsQuery, useAddToCartMutation, useRemoveFromCartMutation } = cartEndpoints;
+export const {
+    useGetCartsQuery,
+    useAddToCartMutation,
+    useRemoveFromCartMutation,
+} = cartEndpoints;

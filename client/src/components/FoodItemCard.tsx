@@ -25,7 +25,6 @@ const FoodItemCard: React.FC<IFoodItemCardProps> = ({
     onAddToCart,
     onRemoveFromCart,
 }) => {
-    const [isHovered, setIsHovered] = useState(false);
     const [isAdded, setIsAdded] = useState<boolean>(item.cartItemId !== null);
     const [quantity, setQuantity] = useState(1);
     const handleAddToCart = (): void => {
@@ -34,6 +33,8 @@ const FoodItemCard: React.FC<IFoodItemCardProps> = ({
     };
 
     const handleRemoveFromCart = (): void => {
+        console.log(item);
+        console.log("Hey")
         if (item.cartItemId && onRemoveFromCart) {
             onRemoveFromCart(item.cartItemId);
             setIsAdded(false);
@@ -42,10 +43,13 @@ const FoodItemCard: React.FC<IFoodItemCardProps> = ({
 
     return (
         <div
-            className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+            className="bg-white relative rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full"
         >
+            <div className='absolute flex w-fit top-1 right-2'>
+                <button onClick={() => setQuantity(prev => prev + 1)}>+</button>
+                <p>{quantity}</p>
+                <button onClick={() => setQuantity(prev => prev != 1 ? prev - 1 : prev)}>-</button>
+            </div>
             {/* Image Container */}
             <div className="relative w-full h-48 overflow-hidden bg-gray-100">
                 <img
@@ -72,20 +76,6 @@ const FoodItemCard: React.FC<IFoodItemCardProps> = ({
                     ₹{item.price}
                 </div>
 
-                {/* Hover Overlay with Add to Cart */}
-                {isHovered && !isAdded && (
-                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                        <Button
-                            onClick={handleAddToCart}
-                            className="bg-orange-600 hover:bg-orange-700 text-white font-semibold gap-2"
-                        >
-                            <ShoppingCart className="w-5 h-5" />
-                            Add to Cart
-                        </Button>
-                    </div>
-                )}
-
-                {/* Added State */}
                 {isAdded && (
                     <div className="absolute inset-0 bg-green-600 bg-opacity-70 flex items-center justify-center">
                         <Button

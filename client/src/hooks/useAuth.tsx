@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
 const useAuth = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const token = localStorage.getItem("accessToken");
+    const [isAuthenticated, setIsAuthenticated] = useState(!!token);
     const [payload, setPayload] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const token = localStorage.getItem("accessToken");
         if (!token) {
             setLoading(false);
             return;

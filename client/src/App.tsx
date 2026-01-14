@@ -11,7 +11,9 @@ const App = () => {
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/restaurants" element={<Restaurants />} />
-          <Route path="/cart/:cartId" element={<Cart />} />
+          <Route element={<AuthRoutes />}>
+            <Route path="/cart/:cartId" element={<Cart />} />
+          </Route>
         </Route>
 
         {/* Routes WITHOUT Navbar */}
@@ -27,6 +29,7 @@ export default App;
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/NavBar";
 import Cart from "./pages/Cart";
+import AuthRoutes from "./lib/AuthRoutes";
 
 const Layout = () => {
   return (
