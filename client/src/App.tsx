@@ -7,6 +7,7 @@ import Restaurants from "./pages/Restaurants";
 const App = () => {
   return (
     <BrowserRouter>
+      <ChatBot />
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
@@ -30,6 +31,7 @@ import { Outlet } from "react-router-dom";
 import Navbar from "./components/NavBar";
 import Cart from "./pages/Cart";
 import AuthRoutes from "./lib/AuthRoutes";
+import ChatBot from "./components/ChatBot";
 
 const Layout = () => {
   return (
