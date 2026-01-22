@@ -5,8 +5,8 @@
   "main": "deployment/handler.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index"
+    "build": "tsc && tsc-alias",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +27,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
-    "@types/pg": "^8.16.0"
+    "@types/pg": "^8.16.0",
+    "tsc-alias": "^1.8.16"
   }
 }
