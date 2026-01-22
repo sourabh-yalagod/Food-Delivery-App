@@ -1,7 +1,4 @@
-.env
+.env 
 node_modules/
-package-lock.json
-/src/generated/prisma
-.vscode
-/src/generated
+dist/
 /src/generated/prisma
